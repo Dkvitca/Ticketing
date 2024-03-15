@@ -41,6 +41,13 @@ userSchema.statics.build = (attrs: UserAttrs) => {
     return new User(attrs);
 };
 
+//delete unnecessary data
+userSchema.methods.toJSON = function () {
+    const { __v, password, _id, ...user } = this.toObject();
+    user.id = _id;
+    return user;
+  };
+
 const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
 
 export { User }
